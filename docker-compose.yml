@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  app:
+    container_name: nodejs_app
+    image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/nodejs_app:v1.0
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    restart: always

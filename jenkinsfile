@@ -1,0 +1,43 @@
+pipeline {
+  agent {
+    label "slave1"
+  }
+  parameter {
+    string(name: "APP_VERSION", defaultValue: "v1.0", description: "Application current deployment version, ex: v1.0")
+  }
+  stages {
+    stage('Git checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage ('Teast and build') {
+        steps {
+            sh '''
+            cd app/
+            npm test
+            npm run build
+            '''
+        }
+    }
+
+    stage('Create docker image') {
+        steps {
+            sh '''
+            sed -i 's/*/ /g' Dockerfile      //remove the extra space between words
+            v=$(APP_VERSION)
+            sh docker.sh $v
+            '''
+        }
+    }
+    stage ("Deployment") {
+        steps {
+            sh '''
+            v=$(APP_VERSION)
+            ansible-playbook -i hosts deployment.yml --extra-vars "v=${v}"
+            '''
+        }
+    }
+  }
+}
