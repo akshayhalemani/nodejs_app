@@ -7,11 +7,11 @@ Set up an automated, scalable, and secure infrastructure to deploy a containeriz
     │   ├── variables.tf
     │   ├── outputs.tf
     │   ├── backend.tf
-    │   └── env/
-    │       ├── main.tf
-    │       ├── variables.tf
-    │       ├── outputs.tf
-    │       ├── dynamodb-backend.tf
+    │   └── env/dev
+    │           ├── main.tf
+    │           ├── variables.tf
+    │           ├── outputs.tf
+    │           ├── dynamodb-backend.tf
     │   └── modules/
     │       ├── vpc/
     │           ├── main.tf
