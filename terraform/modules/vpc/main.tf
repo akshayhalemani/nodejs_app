@@ -42,7 +42,7 @@ resource "aws_subnet" "private" {
 # Elastic IP for NAT
 resource "aws_eip" "app_nat_eip" {
   vpc = true
-  depends_on = [aws_internet_gateway.this]
+  depends_on = [aws_internet_gateway.app_ig]
   tags = { 
     Name = "${var.name}-nat-eip" 
     }
