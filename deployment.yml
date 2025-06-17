@@ -27,7 +27,7 @@
       ignore_errors: no
 
     - name: update the docker image in docker compose file 
-      shell: sed -i s/{{ ecr_repo }}:*/{{ ecr_repo }}:{{ app_version }}
+      shell: sed -i 's/{{ ecr_repo }}:*/{{ ecr_repo }}/{{app_name}}:{{ app_version }}'
       ignore_errors: no
 
     - name: Start new container
@@ -52,7 +52,7 @@
         - name: Remove docker-compose.yml file
           shell: rm -rf /home/ec2-user/app/docker-compose.yml
         
-        - name: Take backup docker-compose.yml file
+        - name: Rename the backup file to docker-compose.yml file
           copy:
             src: /home/ec2-user/app/docker-compose.yml-bkp
             dest: /home/ec2-user/app/docker-compose.yml
@@ -62,5 +62,5 @@
       when: health_check.failed
 
     - name: Remove old container if health check succeeded
-      shell: rm -rf /home/ec2-user/app/docker-compose.yml
+      shell: rm -rf /home/ec2-user/app/docker-compose.yml-bkp
       when: not health_check.failed
